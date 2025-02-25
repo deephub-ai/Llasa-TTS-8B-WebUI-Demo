@@ -1,0 +1,3 @@
+gradio
+xcodec2==0.1.3
+faster-whisper
