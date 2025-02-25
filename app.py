@@ -16,6 +16,9 @@ api_key = os.getenv("HF_TOKEN")
 from huggingface_hub import login
 login(token=api_key) 
 
+#没魔法就用这个镜像
+os.environ['HF_ENDPOINT']= 'https://hf-mirror.com'
+
 """
 
 
@@ -87,9 +90,11 @@ def tts(sample_audio_path,sample_text, system_prompt_text,target_text,sample_rat
     progress=gr.Progress()
     progress(0, '加载音频...')
     waveform, sample_rate = torchaudio.load(sample_audio_path)
-    if len(waveform[0])/sample_rate > 15:
-        gr.Warning("Trimming audio to first 15secs.")
-        waveform = waveform[:, :sample_rate*15]
+    #这里是15秒截断
+    #if len(waveform[0])/sample_rate > 15:
+    #    gr.Warning("Trimming audio to first 15secs.")
+    #    waveform = waveform[:, :sample_rate*15]
+        
     # Check if the audio is stereo (i.e., has more than one channel)
     if waveform.size(0) > 1:
         # Convert stereo to mono by averaging the channels
